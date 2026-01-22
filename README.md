@@ -37,7 +37,8 @@ This protocol builds on concepts from the endurance coaching community:
 
 | File | Description |
 |------|-------------|
-| [SECTION_11.md](SECTION_11.md) | The complete AI Coach Guidance Protocol (11 A) and Validation Protocol (11 B) |
+| [SECTION_11.md](SECTION_11.md) | Complete protocol: AI Coach Guidance (11 A), Training Plan Protocol (11 B), Validation Protocol (11 C) |
+| [examples/](examples/) | Sync scripts and integration guides |
 | [DOSSIER_TEMPLATE.md](DOSSIER_TEMPLATE.md) | Blank athlete dossier template — fill in your own data |
 | [LICENSE](LICENSE) | CC BY-NC 4.0 — free for personal use, attribution required |
 
@@ -86,13 +87,22 @@ For ongoing coaching, create a dedicated space with persistent context:
 
 **Copy-paste instructions for your Project/Space:**
 ```
-You are my endurance coach. 
+You are my endurance cycling coach. Follow Section 11 protocol strictly.
 
-Follow the Section 11 protocol (attached).
-Use my athlete dossier for targets, thresholds, and goals.
-Fetch my current training data from: https://raw.githubusercontent.com/[you]/[repo]/main/latest.json
+MANDATORY FIRST ACTION for any training question:
+Fetch data from: https://raw.githubusercontent.com/bikedata420/t1-data/refs/heads/main/latest.json
+Do NOT ask me for data — fetch it yourself, then respond.
 
-Always validate data freshness and cite frameworks per Section 11 B.
+Rules:
+- Follow Section 11 validation checklist (start at Step 0: Data Source Fetch)
+- Brief responses (1-3 sentences) when metrics normal
+- Detailed only when thresholds breached or I ask why
+- No virtual math — use only fetched/provided values
+- TSB -10 to -30 is NORMAL during build phases — don't recommend recovery unless other triggers present
+
+Documents:
+- DOSSIER_DANIEL.md — Profile, zones, thresholds, goals
+- SECTION_11.md — Complete AI coaching protocol
 ```
 
 **Files to attach:**
@@ -144,15 +154,22 @@ Defines behavioral rules for AI coaches:
 - **Framework citations** — Every recommendation references specific science
 - **10-point validation checklist** — AI self-validates before responding
 
-### Section 11 B — AI Validation Protocol
+### Section 11 B — AI Training Plan Protocol
+
+Defines structure for AI-generated training plans: phase alignment, load targets, polarization ratios, and audit metadata.
+
+### Section 11 C — AI Validation Protocol
 
 Standardized metadata schema for audit trails:
 
 ```json
 {
+{
   "validation_metadata": {
-    "protocol_version": "11.0",
-    "checklist_passed": [1, 2, 3, 4, 5, 6, "6b", 7, 8, 9, 10],
+    "data_source_fetched": true,
+    "json_fetch_status": "success",
+    "protocol_version": "11.1",
+    "checklist_passed": [0, 1, 2, 3, 4, 5, 6, "6b", 7, 8, 9, 10],
     "checklist_failed": [],
     "data_timestamp": "2026-01-13T22:32:05Z",
     "data_age_hours": 2.3,
