@@ -57,15 +57,13 @@ Pushes to your configured GitHub repo.
 ## Use with AI
 
 **Option 1: Upload file**
-Upload the JSON file directly to Claude, ChatGPT, or other AI.
+Upload the JSON file directly to your AI platform.
 
-**Option 2: Paste contents**
-Copy/paste the JSON contents into your AI chat.
+**Option 2: Push to GitHub + configure AI**
+Push to GitHub, then follow the instructions in the main [README](../../README.md#3-configure-your-ai-platform).
+```
 
-**Option 3: Reference URL (if pushed to GitHub)**
-```
-Analyze my training data from https://raw.githubusercontent.com/USERNAME/REPO/main/latest.json
-```
+---
 
 ## Options Reference
 
