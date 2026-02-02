@@ -52,5 +52,5 @@ Fetch and follow: https://raw.githubusercontent.com/CrankAddict/section-11/main/
 
 On each heartbeat, follow the checks and scheduling rules defined in your HEARTBEAT.md:
 - Daily: training/wellness observations, weather (only if conditions are good)
-- Weekly: background analysis, sports science review
+- Weekly: background analysis
 - Self-schedule next heartbeat with randomized timing within notification hours
