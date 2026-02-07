@@ -1,10 +1,16 @@
 # Section 11 — AI Coach Protocol
 
-**Protocol Version:** 11.2  
+**Protocol Version:** 11.3  
 **Last Updated:** 2026-02-07  
 **License:** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ### Changelog
+
+**v11.3 — Output Format & Communication:**
+- Updated Communication Style (Section 5) to match post-workout report templates (line-by-line format, corrected field list)
+- Added Output Format Guidelines with pre/post-workout report structure and brevity rule
+- Added public repo link for report templates (examples/reports)
+- Formalized session field list in response structure
 
 **v11.2 — Metrics & Validation Extension:**
 - Added Phase Detection Criteria with deterministic trigger conditions
@@ -19,9 +25,7 @@
 - Clarified metric evaluation hierarchy (Tier 1 → Tier 2 → Tier 3)
 - Added Dossier Architecture Note (Section 11 as self-contained protocol)
 
-**v11.2 — Output & Structure:**
-- Added Output Format Guidelines with pre/post-workout report structure and brevity rule
-- Formalized session field list in response structure
+**v11.1 — Structure:**
 - Reordered 11 B/11 C for logical flow (Construction → Validation)
 
 **v11.0 — Foundation:**
