@@ -1,0 +1,62 @@
+# Report Hierarchy Overview
+
+Section 11-compliant AI coaching reports follow a layered structure. Each level builds on the one below it.
+
+---
+
+## Report Types & Length Norms
+
+| Report Type | Trigger | Target Length | Purpose |
+|-------------|---------|---------------|---------|
+| **Pre-Workout** | Before each session | ~15-20 lines | Readiness check, Go/Modify/Skip |
+| **Post-Workout** | After each session | ~25-30 lines | Session analysis, execution quality |
+| **Weekly** | End of training week | ~35-45 lines | Compliance, trends, weekly fitness delta |
+| **Block** | End of 3-5 week block | ~45-60 lines | Phase assessment, progression decision |
+
+---
+
+## Information Flow Between Reports
+
+```
+Pre-Workout → Post-Workout → Weekly → Block
+    │              │             │         │
+    │              │             │         └─ Phase progression decision
+    │              │             └─ Aggregates post-workout data
+    │              └─ Quality metrics feed weekly detail
+    └─ Readiness informs session execution
+```
+
+**Key principle:** Data flows upward. Each report level summarizes and contextualizes the level below.
+
+- **Post-Workout** metrics (decoupling, VI, target compliance) appear in **Weekly** Quality Session Detail
+- **Weekly** fitness deltas (CTL, ATL, TSB) appear week-by-week in **Block** Volume Progression
+- **Section 11 Flags** surface at the **Weekly** level and are summarized with resolution in **Block** reports
+- **Wellness trends** use week-over-week at Weekly level, block-over-block at Block level
+
+---
+
+## Consistency Rules
+
+All report types share these formatting principles:
+
+1. **Data first, prose for interpretation only** — structured line-by-line, not bullet summaries
+2. **Scannable in 30 seconds** — most important info at the top
+3. **Assessment labels in parentheses** — (good), (optimal), (flag) after metrics
+4. **Directional arrows** — ↑/↓/→ for trends with threshold-based labels
+5. **Section 11 flags surface immediately** — never deferred to a later report
+6. **Coach note at the end** — 2-5 sentences of coaching interpretation
+
+---
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `PRE_WORKOUT_TEMPLATE.md` | Pre-workout briefing template |
+| `PRE_WORKOUT_EXAMPLES.md` | 2 anonymized pre-workout examples |
+| `POST_WORKOUT_TEMPLATE.md` | Post-workout analysis template |
+| `POST_WORKOUT_EXAMPLES.md` | 2 anonymized post-workout examples |
+| `WEEKLY_REPORT_TEMPLATE.md` | Weekly summary template |
+| `WEEKLY_REPORT_EXAMPLES.md` | 2 anonymized weekly examples |
+| `BLOCK_REPORT_TEMPLATE.md` | Block report template |
+| `BLOCK_REPORT_EXAMPLES.md` | 2 anonymized block examples |
