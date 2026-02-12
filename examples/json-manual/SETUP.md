@@ -61,6 +61,7 @@ The script creates/maintains these files:
 | File | Purpose | When created |
 |------|---------|--------------|
 | `latest.json` | Training data export | Every run with `--output` |
+| `history.json` | Longitudinal data — daily (90d), weekly (180d), monthly (3y) | First run, regenerates when outdated |
 | `ftp_history.json` | FTP progression tracking | Automatically on first run |
 | `.sync_config.json` | Your credentials (local only) | After `--setup` |
 
@@ -78,6 +79,18 @@ The script creates/maintains these files:
 - Updated automatically when FTP changes
 - Used to calculate **Benchmark Index** (8-week FTP progression)
 - Keep this file if you want continuous tracking
+
+### History Data
+
+`history.json` provides longitudinal context with tiered granularity:
+
+| Tier | Granularity | Range |
+|------|-------------|-------|
+| `daily_90d` | Day-by-day | Last 90 days |
+| `weekly_180d` | Week-by-week | Last 180 days |
+| `monthly_1y/2y/3y` | Month-by-month | Up to 3 years |
+
+Also includes period summaries, FTP timeline, and data gap detection. Generated automatically on first run and regenerated when outdated.
 
 ## What's Included
 
@@ -98,11 +111,11 @@ The export includes pre-calculated **derived metrics** for Section 11 compliance
 
 ## Use with AI
 
-**Option 1: Upload file**
-Upload the JSON file directly to your AI platform.
+**Option 1: Upload files**
+Upload both `latest.json` and `history.json` to your AI platform for a complete analysis with longitudinal context.
 
 **Option 2: Push to GitHub + configure AI**
-Push to GitHub, then follow the instructions in the main [README](../README.md#quick-start).
+Push to GitHub, then follow the instructions in the main [README](../README.md#quick-start). Provide both JSON URLs to your AI coach.
 
 ---
 
