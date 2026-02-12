@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """
 Intervals.icu → GitHub/Local JSON Export
@@ -39,7 +40,7 @@ class IntervalsSync:
     HISTORY_FILE = "history.json"
     UPSTREAM_REPO = "CrankAddict/section-11"
     CHANGELOG_FILE = "changelog.json"
-    VERSION = "3.3.0"
+    VERSION = "3.3.1"
     
     def __init__(self, athlete_id: str, intervals_api_key: str, github_token: str = None, 
                  github_repo: str = None, debug: bool = False):
@@ -591,11 +592,34 @@ class IntervalsSync:
             activities_for_consistency, past_events
         )
         
+        # === HARD DAYS THIS WEEK ===
+        # Count days with >=120s of Z4+ time (matches Seiler's session-based intensity tracking)
+        hard_days_this_week = 0
+        activities_by_date_7d = {}
+        for a in activities_7d:
+            a_date = a.get("start_date_local", "")[:10]
+            if a_date not in activities_by_date_7d:
+                activities_by_date_7d[a_date] = []
+            activities_by_date_7d[a_date].append(a)
+        
+        for date_str, day_acts in activities_by_date_7d.items():
+            day_z4_plus = 0
+            for a in day_acts:
+                icu_zone_times = a.get("icu_zone_times", [])
+                if icu_zone_times:
+                    for zone in icu_zone_times:
+                        zid = zone.get("id", "").lower()
+                        if zid in ["z4", "z5", "z6", "z7"]:
+                            day_z4_plus += zone.get("secs", 0)
+            if day_z4_plus >= 120:
+                hard_days_this_week += 1
+        
         # === PHASE DETECTION ===
         phase_detected, phase_triggers = self._detect_phase(
             acwr=acwr,
             ri=ri,
             quality_intensity_pct=quality_intensity_percentage,
+            hard_days_per_week=hard_days_this_week,
             strain=strain,
             monotony=monotony,
             tsb=current_tsb,
@@ -644,6 +668,8 @@ class IntervalsSync:
             "quality_intensity_note": "Quality Intensity % (Z4+/threshold+) - target ~20% in polarized training",
             "polarisation_index": polarisation_index,
             "polarisation_note": "Easy time (Z1+Z2) / Total - target ~80% in polarized training",
+            "hard_days_this_week": hard_days_this_week,
+            "hard_days_note": "Days with >=120s Z4+ time. Per Seiler, session count is more meaningful than time-in-zone for high-volume athletes",
             
             # Tier 3: Consistency & Compliance
             "consistency_index": consistency_index,
@@ -876,12 +902,15 @@ class IntervalsSync:
             "total_time": total_time
         }
     
-    def _detect_phase(self, acwr: float, ri: float, quality_intensity_pct: float, 
+    def _detect_phase(self, acwr: float, ri: float, quality_intensity_pct: float,
+                      hard_days_per_week: int,
                       strain: float, monotony: float, tsb: float, ctl: float) -> Tuple[str, List[str]]:
         """
         Detect current training phase based on Section 11 Phase Detection Criteria
         
-        Updated to use Quality Intensity % (Z4+) instead of ZQI (Z3+)
+        Uses both time-based quality intensity % AND session-based hard days/week.
+        For high-volume athletes (10+ hrs/week), time-based metrics undercount intensity
+        because hard sessions are diluted by volume. Session count provides the correction.
         """
         triggers = []
         
@@ -909,22 +938,39 @@ class IntervalsSync:
                 triggers = [f"TSB {tsb} positive", "CTL stable/declining"]
                 return "Taper", triggers
         
-        # Build phase (increased intensity focus)
-        if acwr and 1.0 <= acwr <= 1.3:
-            if quality_intensity_pct and 15 <= quality_intensity_pct <= 25:
-                triggers = [f"ACWR {acwr} in 1.0-1.3", f"Quality Intensity {quality_intensity_pct}% in 15-25%"]
+        # Build phase — by time OR by session count
+        # High-volume athletes may show low quality % but still train 2+ hard days/week
+        build_by_time = (quality_intensity_pct and 15 <= quality_intensity_pct <= 25)
+        build_by_sessions = (hard_days_per_week >= 2)
+        
+        if acwr and 0.8 <= acwr <= 1.3:
+            if build_by_time or build_by_sessions:
+                triggers = [f"ACWR {acwr} in 0.8-1.3"]
+                if build_by_time:
+                    triggers.append(f"Quality Intensity {quality_intensity_pct}% in 15-25%")
+                if build_by_sessions:
+                    triggers.append(f"Hard days {hard_days_per_week}/week >= 2")
                 return "Build", triggers
         
-        # Base phase (low intensity focus)
+        # Base phase — low intensity by BOTH time and session count
         if acwr and 0.8 <= acwr < 1.0:
             triggers = [f"ACWR {acwr} in 0.8-1.0"]
-            if quality_intensity_pct and quality_intensity_pct < 15:
+            if quality_intensity_pct is not None:
                 triggers.append(f"Quality Intensity {quality_intensity_pct}% < 15%")
+            if hard_days_per_week is not None:
+                triggers.append(f"Hard days {hard_days_per_week}/week <= 1")
             return "Base", triggers
         
-        # Peak phase (high intensity with controlled load)
-        if acwr and acwr >= 1.0 and quality_intensity_pct and quality_intensity_pct > 20:
-            triggers = [f"ACWR {acwr} >= 1.0", f"Quality Intensity {quality_intensity_pct}% > 20%"]
+        # Peak phase — high intensity with controlled load
+        peak_by_time = (quality_intensity_pct and quality_intensity_pct > 20)
+        peak_by_sessions = (hard_days_per_week >= 3)
+        
+        if acwr and acwr >= 1.0 and (peak_by_time or peak_by_sessions):
+            triggers = [f"ACWR {acwr} >= 1.0"]
+            if peak_by_time:
+                triggers.append(f"Quality Intensity {quality_intensity_pct}% > 20%")
+            if peak_by_sessions:
+                triggers.append(f"Hard days {hard_days_per_week}/week >= 3")
             return "Peak", triggers
         
         return "Indeterminate", ["Insufficient data for phase detection"]
@@ -1429,18 +1475,17 @@ class IntervalsSync:
             activity_types = list(set(a.get("type", "Unknown") for a in day_activities)) if day_activities else ["Rest"]
             
             # Zone analysis for hard day detection
-            is_hard = False
+            # Minimum 120s of Z4+ across all activities to count as hard
+            # (filters brief HR spikes from walks while catching short interval sessions)
+            day_z4_plus = 0
             for a in day_activities:
-                z4_plus = 0
                 icu_zone_times = a.get("icu_zone_times", [])
                 if icu_zone_times:
                     for zone in icu_zone_times:
                         zid = zone.get("id", "").lower()
                         if zid in ["z4", "z5", "z6", "z7"]:
-                            z4_plus += zone.get("secs", 0)
-                if z4_plus > 0:
-                    is_hard = True
-                    break
+                            day_z4_plus += zone.get("secs", 0)
+            is_hard = day_z4_plus >= 120
             
             rows.append({
                 "date": date_str,
@@ -1535,7 +1580,7 @@ class IntervalsSync:
                 ramp_rate = wellness.get("rampRate") or ramp_rate
                 
                 # Zone and hard day analysis
-                day_has_hard = False
+                day_z4_plus = 0
                 for a in day_activities:
                     ride_seconds = a.get("moving_time", 0) or 0
                     if ride_seconds > longest_ride:
@@ -1552,15 +1597,14 @@ class IntervalsSync:
                                 z3_time += secs
                             elif zid in ["z4", "z5", "z6", "z7"]:
                                 z4_plus_time += secs
-                                if secs > 0:
-                                    day_has_hard = True
+                                day_z4_plus += secs
                             total_zone_time += secs
                     
                     feel = a.get("feel")
                     if feel:
                         week_feel.append(feel)
                 
-                if day_has_hard:
+                if day_z4_plus >= 120:
                     hard_days += 1
             
             if ctl_end and atl_end:
@@ -1653,7 +1697,7 @@ class IntervalsSync:
                 if wellness.get("ctl"):
                     ctl_values.append(wellness["ctl"])
                 
-                day_has_hard = False
+                day_z4_plus = 0
                 for a in day_activities:
                     ride_seconds = a.get("moving_time", 0) or 0
                     if ride_seconds > longest_ride:
@@ -1670,11 +1714,10 @@ class IntervalsSync:
                                 z3_time += secs
                             elif zid in ["z4", "z5", "z6", "z7"]:
                                 z4_plus_time += secs
-                                if secs > 0:
-                                    day_has_hard = True
+                                day_z4_plus += secs
                             total_zone_time += secs
                 
-                if day_has_hard:
+                if day_z4_plus >= 120:
                     hard_days_total += 1
                 
                 date += timedelta(days=1)
