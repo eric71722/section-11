@@ -28,8 +28,8 @@ Copy this file to your workspace as `HEARTBEAT.md` and fill in the bracketed val
 | Source | URL/Path |
 |--------|----------|
 | Latest JSON | [URL to latest.json] |
+| History JSON | [URL to history.json] |
 | Archive folder | [URL to archive/] |
-| Long-term history | [Local path, optional] |
 
 ---
 
@@ -56,6 +56,7 @@ Copy this file to your workspace as `HEARTBEAT.md` and fill in the bracketed val
 
 ### Background Analysis
 - Run once per week between training weeks (suggested: Sunday 20:00 – Monday 10:00)
+- Use latest.json for current status, history.json for longitudinal trends, archive/ for recent snapshots
 - Compare current week vs previous weeks, current month vs previous months
 - Track consistency patterns (sessions per week, missed days)
 - Note long-term CTL trends (building, plateauing, declining)
@@ -64,19 +65,8 @@ Copy this file to your workspace as `HEARTBEAT.md` and fill in the bracketed val
 
 ---
 
-## Self-Scheduling
-
-After each heartbeat:
-1. If current time (in configured timezone) is outside notification hours, skip checks — just reschedule
-2. Delete any existing heartbeat job
-3. Pick a random hour within notification window and random minute 00-59
-4. If that time is <1 hour away or past end of window today → use tomorrow
-5. Schedule next heartbeat
-
----
-
 ## Notes
 
-- Randomized timing prevents predictable patterns
 - Weather silence when conditions are bad reduces noise
 - Background analysis window should fall between training weeks to avoid mid-week disruption
+- Configure scheduling in your agent platform (cron, heartbeat system, etc.) to run checks within notification hours
