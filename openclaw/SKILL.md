@@ -15,9 +15,9 @@ On first use:
    - Save as DOSSIER.md in the workspace
 
 2. **Set up JSON data source**
-   - Athlete creates a private GitHub repo for training data
+   - Athlete creates a private GitHub repo for training data, or keeps files locally
    - Set up automated sync from Intervals.icu to `latest.json` and `history.json`
-   - Save both raw URLs in DOSSIER.md under "Data Source"
+   - Save both raw URLs in DOSSIER.md under "Data Source" (or local file paths if running locally)
    - `latest.json` — current 7-day snapshot + 28-day derived metrics
    - `history.json` — longitudinal data (daily 90d, weekly 180d, monthly 3y)
    - See: https://github.com/CrankAddict/section-11#2-set-up-your-data-mirror-optional-but-recommended
@@ -88,9 +88,7 @@ The skill performs simple HTTP GET requests to fetch:
 It does **not** send API keys, LLM chat histories, or any user data to external URLs. All fetched content comes from sources the user has explicitly configured.
 
 **Recommended setup: local files or private repos**
-The safest and simplest setup is fully local: export your data as JSON and point the skill at files on your device (see `examples/json-manual/`). If you use GitHub, use a **private repository**.
-
-For private repo usage with agents, see the setup guide: `PRIVATE_REPO_GUIDE.md`
+The safest and simplest setup is fully local: export your data as JSON and point the skill at files on your device (see `examples/json-manual/`). If you use GitHub, use a **private repository**. See `examples/json-auto-sync/SETUP.md` for automated sync setup including private repo usage with agents.
 
 **Protocol and template URLs**
 The default protocol and template URLs point to this repository. The risk model is standard open-source supply-chain.
@@ -104,4 +102,3 @@ Section 11 does not implement GitHub authentication. It reads files from whateve
 - Running in an agent (OpenClaw, Claude Cowork, etc.) with GitHub access configured: can read/write repos that the agent's token/SSH key allows
 
 Access is entirely governed by credentials the user has already configured in their environment.
-
