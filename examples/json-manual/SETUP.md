@@ -100,7 +100,7 @@ The export includes pre-calculated **derived metrics** for Section 11 compliance
 |--------|-------------|
 | CTL / ATL / TSB | Fitness, fatigue, form (decay-corrected) |
 | Ramp Rate | Training load trend (smart: excludes uncompleted planned workouts) |
-| ACWR | Acute:Chronic Workload Ratio |
+| ACWR | Acute: Chronic Workload Ratio |
 | Recovery Index | HRV/RHR composite |
 | Monotony / Strain | Training variability metrics |
 | Grey Zone % | Z3 time (to minimize) |
@@ -115,7 +115,10 @@ The export includes pre-calculated **derived metrics** for Section 11 compliance
 Upload both `latest.json` and `history.json` to your AI platform for a complete analysis with longitudinal context.
 
 **Option 2: Push to GitHub + configure AI**
-Push to GitHub, then follow the instructions in the main [README](../README.md#quick-start). Provide both JSON URLs to your AI coach.
+Push to a GitHub repo (private recommended), then follow the instructions in the main [README](../README.md#quick-start). Provide both JSON URLs to your AI coach.
+
+**Option 3: Use with desktop agents**
+Claude Cowork, OpenAI Codex CLI, and local OpenClaw can read files directly from your filesystem — no GitHub needed. Point the agent at the folder containing your exported JSON files.
 
 ---
 
