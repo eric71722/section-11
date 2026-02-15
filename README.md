@@ -341,6 +341,9 @@ The sync script pre-calculates Section 11-compliant metrics so AI doesn't need t
 | Polarisation Index | Easy time ratio — target ~0.80 |
 | Benchmark Index | 8-week FTP progression (indoor/outdoor) |
 | Phase Detected | Auto-detected training phase |
+| Seiler TID | 3-zone classification (Polarized/Pyramidal/Threshold/HIT/Base) |
+| Polarization Index (PI) | Treff et al. quantitative polarization score |
+| Hard Days/Week | Zone ladder classification per Seiler/Foster |
 
 ### FTP History Tracking
 
