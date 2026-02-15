@@ -48,9 +48,12 @@ Fitness:
   CTL: [XX.X] → [XX.X] (Δ [+/-X.X])
   ATL: [XX.X] → [XX.X]
   TSB: [X.X] → [X.X]
+  Recovery Index: [X.XX] ([assessment])
   Ramp rate: [X.XX]
   ACWR: [X.XX] ([interpretation])
-    Acute (7d): [XXX] TSS | Chronic (28d avg): [XXX] TSS
+  Acute (7d): [XXX] TSS | Chronic (28d avg): [XXX] TSS
+  Monotony: [X.XX] ([note]) (omit if ≤2.3)
+  Strain: [XXXX] (omit if no monotony flag)
 
 Wellness Trends:
   HRV: [XX]–[XX] ms (avg [XX], prev week [XX]) [↑/↓/→]
