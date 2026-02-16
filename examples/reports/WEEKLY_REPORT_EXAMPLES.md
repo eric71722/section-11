@@ -41,6 +41,11 @@ Polarization:
   Z1+Z2: 83.4%
   Z3 (Grey Zone): 3.1% (target <5%)
   Z4+ (Quality): 13.5% (target ~20% of intensity sessions)
+  Classification 7d: Polarized (PI: 2.92) | 28d: Polarized (PI: 3.05) — consistent
+
+Durability (steady-state sessions, VI ≤ 1.05, ≥ 90min):
+  7d mean: 2.10% (3 sessions) | 28d mean: 2.65% (11 sessions)
+  Trend: improving | High drift (>5%): 0 sessions
 
 Fitness:
   CTL: 78.2 → 80.6 (Δ +2.4)
@@ -104,6 +109,11 @@ Polarization:
   Z1+Z2: 91.2%
   Z3 (Grey Zone): 6.8% (target <5%) ⚠️
   Z4+ (Quality): 2.0%
+  Classification 7d: Pyramidal (PI: 1.85) | 28d: Polarized (PI: 2.90) — acute_depolarization ⚠️
+
+Durability (steady-state sessions, VI ≤ 1.05, ≥ 90min):
+  7d mean: 4.80% (2 sessions) | 28d mean: 2.90% (9 sessions)
+  Trend: declining | High drift (>5%): 1 session
 
 Fitness:
   CTL: 72.4 → 71.1 (Δ -1.3)
@@ -121,15 +131,19 @@ Wellness Trends:
 Section 11 Flags:
   - HRV below 7-day baseline by >15% on Thu → triggered rest day
   - Grey Zone >5% for the week → review Tuesday pacing
+  - TID acute depolarization: 7d PI 1.85 vs 28d PI 2.90 → fatigue shifting distribution
+  - Durability declining: 7d mean 4.80% vs 28d 2.90% → aerobic efficiency slipping
 
 Overall:
 Fatigue accumulated from weeks 1-2 surfaced mid-week. HRV dropped 15%
 Thursday morning, prompting an unplanned rest day — correct decision per
 Section 11 Tier 1 readiness hierarchy. Tuesday's tempo was modified
 mid-session (cut third interval) due to elevated perceived effort, and
-grey zone crept to 6.8% as a result of pacing drift. TSB recovering
-from -16 to -7, which was needed. Sleep quality was the likely root
-cause — address sleep hygiene before next week.
+grey zone crept to 6.8% as a result of pacing drift. Durability declined
+noticeably (4.8% vs 2.9% 28d average) and TID shifted from Polarized to
+Pyramidal — both consistent with accumulated fatigue rather than a training
+design issue. TSB recovering from -16 to -7, which was needed. Sleep
+quality was the likely root cause — address sleep hygiene before next week.
 
 Next Week Preview:
 Week 4 was planned as continued base build but recommending a partial
