@@ -1,6 +1,6 @@
 {
-    "last_updated": "2026-02-23T08:11:12.868304Z",
-    "athlete_id": "i25798",
+    "last_updated": "2026-02-23T08:31:35.060020Z",
+    "athlete_id": "2dqp74yo7q69u53ti5fzazucb",
     "metrics": {
         "ctl": null,
         "atl": null,
@@ -8,9 +8,9 @@
         "fitness": null
     },
     "wellness": {
-        "hrv": 33.0,
-        "rhr": 59,
-        "sleep_score": 73.0
+        "hrv": null,
+        "rhr": null,
+        "sleep_score": null
     },
     "latest_activity": {
         "name": null,
