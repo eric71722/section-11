@@ -1,0 +1,36 @@
+name: Intervals.icu Sync
+
+on:
+  schedule:
+    - cron: '0 * * * *'    # 每小時執行一次
+  workflow_dispatch:      # 允許手動觸發
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run sync script
+        env:
+          INTERVALS_API_KEY: ${{ secrets.INTERVALS_API_KEY }}
+          INTERVALS_ATHLETE_ID: ${{ secrets.INTERVALS_ATHLETE_ID }}
+        # 注意：這裡是指向根目錄的 sync.py
+        run: python sync.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "Section11-Bot"
+          git config --global user.email "bot@section11.ai"
+          git add latest.json
+          git commit -m "Update training data: $(date)" || exit 0
+          git push
